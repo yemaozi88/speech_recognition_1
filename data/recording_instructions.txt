@@ -1,0 +1,52 @@
+録音
+
+（１）a, i, u, e, o（日本語の５母音）, zero, one, two, three, four, five, six, seven, eight, night, tenをそれぞれ5回ずつ、16kHz / 16bitで録音し、それぞれ{発話内容}_{回数}.wavという名前で保存してください。
+［注意1］できるだけ背景雑音が入らないように注意してください。例えば、パソコンで録音するなら、外部雑音やパソコンのファンの音などの影響を防ぐために、外付けマイクを使うか、そうでないならPCM録音というアプリを使って、携帯で録音するのがおすすめです。携帯のマイクは指向性がある場合が多いからです。
+［注意2］録音した音声の最初と最後の無声部分は1秒以下になるように、余計な部分を切り取ってください。wavesurferなどで手でやってもいいですし、soxを使って一括でやってしまう手もあります。
+
+（２）録音した(5 + 10)x5 = 75個のファイルは、下記のようなフォルダ構成にして、quadroの/home/akikun/audio_corpora/exercise/wav下においてください。
+takkan
+|--- vowel
+     |--- a_1.wav
+     |--- a_2.wav
+     ...
+     |--- o_5.wav
+|--- digit
+     |--- zero_1.wav
+     |--- zero_2.wav
+     ...
+     |--- nice_5.wav
+
+次に、vowel以下の音声データから、フォルマント, ケプストラム、MFCCを抽出してください。
+
+（１）speech_recognition_1の下に、新しくvowel_recognitionというipythonノートブックをつくって、そこで作業してください。フォルマントはpraatio、Cepstrumは前の課題で書いたコード、MFCCはlibrosaを使ってください。
+
+［注意1］同じフォルダ内に、default_settings.pyというファイルを作り、そこに手動で変更する設定を書き込んでください。ReadSpeakerのGiteaにある、http://10.202.0.22:9292/Aki/rs_corpus/default_settings.pyなどを参考にしてください。
+いくつかのファイルで、同じ設定を使うとき（例えば、reposディレクトリの場所など）、変更を簡単に反映させることができるようにするためです。
+［注意2］この課題では、フォルマントは２次まで（F1, F2）、ケプストラムとMFCCは20次まで抽出してください。このとき、それぞれの特徴量を抽出する次の様な３つの関数を作り、必要な次数を引数として取るようにしてください。ここでxは、librosaやscipy.io.wavfileでwavファイルから読み込んだ信号です。
+
+def extract_formant(x, deg):
+  ''' extract formant from signal x. '''
+   (you will implement)
+   return f0
+
+def extract_cepstrum(x, deg):
+   (you will implement)
+   return cep
+
+def extract_mfcc(x, deg):
+   (you will implement)
+    return mfcc
+
+（２）抽出した特徴量は、numpy.saveで、/home/akikun/features以下に、次のような構成で保存してください。
+takkan
+|--- vowel
+     |--- a_1.fmt （フォルマント）
+     |--- a_1.cep （ケプストラム）
+     |--- a_1.mfcc （MFCC）
+     |--- a_2.fmt （フォルマント）
+     |--- a_2.cep （ケプストラム）
+     |--- a_2.mfcc （MFCC）
+
+     ...
+     |--- o_5.mfcc
